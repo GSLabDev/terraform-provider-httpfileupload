@@ -41,7 +41,6 @@ func init() {
 	}
 }
 
-
 func resourceUploadCreate(d *schema.ResourceData, m interface{}) error {
 	ip_address := d.Get("ip_address").(string)
 	d.SetId(ip_address)
@@ -51,6 +50,7 @@ func resourceUploadCreate(d *schema.ResourceData, m interface{}) error {
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 	err := c.Run()
+
 	if err != nil {
 		panic("The flask server may not be running")
 	}
@@ -66,7 +66,6 @@ func resourceUploadUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceUploadDelete(d *schema.ResourceData, m interface{}) error {
-	//      c := exec.Command("sshpass", "-p" + d.Get("password").(string), "ssh", "-o", "StrictHostKeyChecking=no", d.Get("user_name").(string) + "@" + d.Get("ip_address").(string), "rm", "-rf", d.Get("file_name").(string))
 	c := exec.Command("curl", "-i", "-X", "DELETE", "-F", "file=@" + d.Get("file_name").(string), "http://" + d.Get("ip_address").(string) + ":8080/upload")
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
