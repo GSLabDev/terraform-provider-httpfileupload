@@ -17,6 +17,7 @@ func resourceUpload() *schema.Resource {
 		Create: resourceUploadCreate,
 		Read:   resourceUploadRead,
 		Update: resourceUploadUpdate,
+		Delete: resourceUploadDelete,
 
 		Schema: map[string]*schema.Schema{
 			"ip_address": &schema.Schema{
@@ -93,5 +94,8 @@ func resourceUploadRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceUploadUpdate(d *schema.ResourceData, m interface{}) error {
+	return nil
+}
+func resourceUploadDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
