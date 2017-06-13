@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"os/exec"
-	"os"
+    	"github.com/hashicorp/terraform/helper/schema"
+    	"os"
         "net/http"
         "io/ioutil"
         "bytes"
