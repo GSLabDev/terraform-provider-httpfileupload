@@ -11,6 +11,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods=['GET', 'POST', 'DELETE'])
 def upload():
+    if request.method == 'GET':
+        return "The flask server is up and running"
     if request.method == 'POST':
         file = request.files['file']
         filename = secure_filename(file.filename)
