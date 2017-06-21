@@ -2,6 +2,8 @@ import os
 
 from flask import Flask, request
 from werkzeug.utils import secure_filename
+from werkzeug.routing import BaseConverter
+
 
 app = Flask(__name__)
 
@@ -24,6 +26,27 @@ def upload():
         file = request.files['file']
         os.remove(UPLOAD_FOLDER + "/" + file.filename)
         return 'file deleted successfully'
+
+
+class RegexConverter(BaseConverter):
+    def __init__(self, url_map, *items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
+
+
+app.url_map.converters['regex'] = RegexConverter
+
+
+@app.route('/upload/<regex("[\w./]{4,100}"):file_name>/', methods=['GET'])
+def check(file_name):
+    try:
+        exit_status = os.path.exists(file_name)
+        if exit_status != 0:
+            error_message = 'File Does not exist'
+            raise Exception(error_message)
+
+    except Exception as e:
+        return 0
 
 
 if __name__ == '__main__':
