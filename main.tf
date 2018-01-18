@@ -1,7 +1,7 @@
-provider "upload" {
-  ip_address = "10.136.50.28"
+provider "http_file_upload" {
+  ip_address = "localhost"
 }
 
-resource "upload_file" "my_file"{
-  file_name = "/home/ismail/Documents/hello.txt"
+resource "http_file_upload_file" "my_file"{
+  file_name = "/home/samtholiya/Documents/hello.txt"
 }
