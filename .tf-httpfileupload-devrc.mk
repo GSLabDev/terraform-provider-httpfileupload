@@ -1,8 +1,8 @@
 # This file is designed to assist you with configuring your environment for
-# testing the Active Directory provider, and also serves as a catalog of the environment
+# testing the HttpFileUpload provider, and also serves as a catalog of the environment
 # variables that are required to test all of the resources in this provider.
 #
-# This should be copied to ~/.tf-odl-devrc.mk and edited accordingly.
+# This should be copied to ~/.tf-httpfileupload-devrc.mk and edited accordingly.
 #
 # Note that the use of all of this file is not required - environment variables
 # can still be completely set from the command line or your existing
@@ -13,5 +13,7 @@
 #
 # The essentials. None of the tests will run if you don't have these.
 
+export HTTPFILEUPLOAD_HOST_URL     ?= changeme
+export HTTPFILEUPLOAD_FILE_PATH    ?= changeme
 
 # vi: filetype=make

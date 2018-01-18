@@ -7,11 +7,11 @@ from werkzeug.routing import BaseConverter
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = "/home/ismail/Documents/Uploads"
+UPLOAD_FOLDER = "/home/samtholiya/Documents/uploads"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/upload', methods=['GET', 'POST', 'DELETE'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'GET':
         return "The flask server is up and running"
@@ -20,12 +20,7 @@ def upload():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         app.config['UPLOADED_FILE'] = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        return 'file uploaded successfully'
-
-    if request.method == 'DELETE':
-        file = request.files['file']
-        os.remove(UPLOAD_FOLDER + "/" + file.filename)
-        return 'file deleted successfully'
+        return 'file uploaded successfully', 200
 
 
 class RegexConverter(BaseConverter):
@@ -33,20 +28,26 @@ class RegexConverter(BaseConverter):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
 
+@app.route('/upload/<string:name>', methods=['DELETE'])
+def delete_entry(name):
+    file = name
+    os.remove(UPLOAD_FOLDER + "/" + file)
+    return 'file deleted successfully'
 
 app.url_map.converters['regex'] = RegexConverter
 
-
-@app.route('/upload/<regex("[\w./]{4,100}"):file_name>/', methods=['GET'])
+@app.route('/upload/<string:file_name>', methods=['GET'])
 def check(file_name):
     try:
-        exit_status = os.path.exists(file_name)
-        if exit_status != 0:
+        exit_status = os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],file_name))
+        print(exit_status)
+        if not exit_status:
             error_message = 'File Does not exist'
             raise Exception(error_message)
 
     except Exception as e:
-        return 0
+        return "file not available", 500
+    return "file found", 200
 
 
 if __name__ == '__main__':

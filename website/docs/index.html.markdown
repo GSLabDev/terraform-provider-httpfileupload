@@ -28,7 +28,7 @@ resource "httpfileupload_file" "my_file"{
 
 ## Acceptance Tests
 
-The Active Directory provider's acceptance tests require the above provider
+The HttpFileUpload provider's acceptance tests require the above provider
 configuration fields to be set using the documented environment variables.
 
 Once all these variables are in place, the tests can be run like this:
