@@ -25,7 +25,7 @@ func resourceUpload() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				DefaultFunc: schema.EnvDefaultFunc("FILEHTTPUPLOAD_HOST_URL", nil),
+				DefaultFunc: schema.EnvDefaultFunc("HTTPFILEUPLOAD_HOST_URL", nil),
 				Description: descriptions["host_url"],
 			},
 
@@ -33,7 +33,7 @@ func resourceUpload() *schema.Resource {
 				Type:         schema.TypeString,
 				Required:     true,
 				ForceNew:     true,
-				DefaultFunc:  schema.EnvDefaultFunc("FILEHTTPUPLOAD_FILE_PATH", nil),
+				DefaultFunc:  schema.EnvDefaultFunc("HTTPFILEUPLOAD_FILE_PATH", nil),
 				Description:  descriptions["file_path"],
 				ValidateFunc: validatePath,
 			},
@@ -58,9 +58,9 @@ var descriptions map[string]string
 
 func init() {
 	descriptions = map[string]string{
-		"host_url": "The ip address of the machine you want to upload file to.",
+		"host_url": "The http URL you want to upload file to.",
 
-		"file_path": "Entire filepath including the filename.",
+		"file_path": "Absolute filepath including the filename.",
 	}
 }
 
@@ -77,7 +77,7 @@ func resourceUploadCreate(d *schema.ResourceData, m interface{}) error {
 	}
 	fh, err := os.Open(filePath)
 	if err != nil {
-		log.Println("error opening file")
+		log.Println("Error opening file")
 		return fmt.Errorf("[ERROR] Error while opening file %s ", err)
 	}
 
